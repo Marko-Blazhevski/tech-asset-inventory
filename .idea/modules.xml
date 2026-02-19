@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/inventory-backend/inventory-backend.iml" filepath="$PROJECT_DIR$/inventory-backend/inventory-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inventory-frontend/inventory-frontend.iml" filepath="$PROJECT_DIR$/inventory-frontend/inventory-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tech-asset-inventory.iml" filepath="$PROJECT_DIR$/tech-asset-inventory.iml" />
+    </modules>
+  </component>
+</project>
