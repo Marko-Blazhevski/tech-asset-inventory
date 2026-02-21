@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import { CreateAssetDto } from '../model/dto/create-asset.dto';
 import { UpdateAssetDto } from '../model/dto/update-asset.dto';
+import {AssetRepository} from "../repository/asset.repository";
 
 @Injectable()
 export class AssetsService {
-  create(createAssetDto: CreateAssetDto) {
-    return 'This action adds a new asset';
+
+  constructor(
+     private readonly assetRepository: AssetRepository
+  ) {}
+
+  async create(createAssetDto: CreateAssetDto) {
+    const entity = this.assetRepository.create(createAssetDto);
+    return await this.assetRepository.save(entity);
   }
 
-  findAll() {
-    return `This action returns all assets`;
+  async findAll() {
+    return await this.assetRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} asset`;
+  async findOne(id: string) {
+    const entity = await this.assetRepository.findOne({ where: { id: id } });
+    if (!entity) {
+      throw new NotFoundException(`Asset with id ${id} not found`);
+    }
+    return entity;
   }
 
-  update(id: number, updateAssetDto: UpdateAssetDto) {
-    return `This action updates a #${id} asset`;
+  async update(id: string, updateAssetDto: UpdateAssetDto) {
+    const entity = await this.findOne(id);
+    const updated = Object.assign(entity, updateAssetDto);
+    return await this.assetRepository.save(updated);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} asset`;
+  async remove(id: string) {
+    const entity = await this.findOne(id);
+    await this.assetRepository.softRemove(entity);
+    return entity;
   }
 }

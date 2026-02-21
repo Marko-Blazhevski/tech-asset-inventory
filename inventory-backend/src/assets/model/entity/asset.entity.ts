@@ -1,9 +1,10 @@
 import {Column, Entity} from "typeorm";
-import {AssetStatus} from "../enums/asset-status.enum";
+import {AssetStatus} from "../enum/asset-status.enum";
 import {BaseEntity} from "../../../common/model/base.entity";
+import {AssetData} from "../interface/asset-data.interface";
 
 @Entity('assets')
-export class Asset extends BaseEntity {
+export class AssetEntity extends BaseEntity implements AssetData{
 
     @Column({
         type: 'varchar',
