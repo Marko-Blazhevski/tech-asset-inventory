@@ -1,5 +1,5 @@
 import api from "../api/axios.ts";
-import type {AssetData, AssetDto} from "../type/assets.type.ts";
+import type {AssetData, AssetDto, CreateAssetData} from "../type/assets.type.ts";
 import type {DeepPartial} from "ts-essentials";
 
 const API_URL = '/assets';
@@ -16,7 +16,7 @@ export const AssetsService = {
         return response.data;
     },
 
-    async create(data: AssetData) {
+    async create(data: CreateAssetData) {
         const response = await api.post<AssetDto>(`${API_URL}`, data);
         return response.data;
     },

@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {AssetsService} from "../service/assets.service.ts";
-import type {AssetData} from "../type/assets.type.ts";
+import type {AssetData, CreateAssetData} from "../type/assets.type.ts";
 import type {DeepPartial} from "ts-essentials";
 
 export const useAssets = () => {
@@ -13,23 +13,23 @@ export const useAssets = () => {
     });
 
     const createMutation = useMutation({
-        mutationFn: (newAsset: AssetData) => AssetsService.create(newAsset),
+        mutationFn: (newAsset: CreateAssetData) => AssetsService.create(newAsset),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['assets'] })
+            queryClient.invalidateQueries({ queryKey: ['assets'] });
         }
     });
 
     const patchMutation = useMutation({
         mutationFn: ({ id, partial }: {id: string, partial: DeepPartial<AssetData>}) => AssetsService.update(id, partial),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['assets'] })
+            queryClient.invalidateQueries({ queryKey: ['assets'] });
         }
     });
 
     const deleteMutation = useMutation({
         mutationFn: (id: string) => AssetsService.delete(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['assets'] })
+            queryClient.invalidateQueries({ queryKey: ['assets'] });
         }
     });
 

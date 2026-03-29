@@ -8,7 +8,7 @@ export interface AssetData {
     tag: string;
     serialNumber: string;
     model: string;
-    status?: AssetStatus;
+    status: AssetStatus;
     purchaseDate: Date;
 }
 
@@ -18,4 +18,12 @@ export enum AssetStatus {
     MAINTENANCE = 'maintenance',
     RETIRED = 'retired',
     LOST = 'lost',
+}
+
+export interface CreateAssetData {
+    tag: string;
+    serialNumber: string;
+    model: string;
+    status: AssetStatus;
+    purchaseDate: Date;
 }
