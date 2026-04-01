@@ -8,3 +8,40 @@ services:
       POSTGRES_DB: tech_inventory_db
     ports:
       - '5555:5432'
+  postgres-employees:
+    image: 'postgres:latest'
+    container_name: 'postgres_employees'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tech_inventory_employees_db
+    ports:
+      - '5556:5432'
+  frontend:
+    build: ./inventory-frontend
+    container_name: react_app
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./inventory-frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_HOST=0.0.0.0
+  backend:
+    build: ./inventory-backend
+    container_name: nest_app
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./inventory-backend:/app
+      - /app/node_modules
+    environment:
+      ENVIRONMENT: dev
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: tech_inventory_db
+    depends_on:
+      - postgres
