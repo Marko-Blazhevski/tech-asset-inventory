@@ -1,9 +1,10 @@
 import './App.css';
 import { useAssets } from "./hook/useAssets.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CreateOrUpdateAssetModal} from "./modal/CreateOrUpdateAssetModal.tsx";
 import type {AssetDto} from "./type/assets.type.ts";
 import {DeleteAssetModal} from "./modal/DeleteAssetModal.tsx";
+import axios from "axios";
 
 function App() {
   const { assets, isLoading, createAsset, isCreating, patchAsset, isUpdating, deleteAsset, isDeleting } = useAssets();
@@ -15,6 +16,12 @@ function App() {
     const date = new Date(dateInput);
     return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString();
   };
+
+  useEffect(() => {
+    axios.get('http://localhost:5050/api/users').then(res => {
+      console.log(res.data);
+    })
+  }, []);
 
   return (
     <>

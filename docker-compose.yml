@@ -39,3 +39,18 @@ services:
       DB_NAME: tech_inventory_db
     depends_on:
       - postgres
+  employees:
+    build: ./inventory-people
+    container_name: express_app
+    ports:
+      - '5050:5050'
+    environment:
+      DB_HOST: postgres-employees
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: tech_inventory_employees_db
+      DB_MAX_CONNECTIONS: 10
+      DB_IDLE_TIMEOUT: 3000
+    depends_on:
+      - postgres-employees
