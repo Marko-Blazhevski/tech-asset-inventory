@@ -1,4 +1,18 @@
+networks:
+  micro-network:
+    driver: bridge
 services:
+  gateway:
+    build: ./gateway
+    container_name: api_gateway
+    ports:
+      - '8080:8080'
+    networks:
+      - 'micro-network'
+    depends_on:
+      - frontend
+      - backend
+      - employees
   postgres:
     image: 'postgres:latest'
     container_name: 'postgres_db'
@@ -6,8 +20,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: tech_inventory_db
-    ports:
-      - '5555:5432'
+    networks:
+      - 'micro-network'
   postgres-employees:
     image: 'postgres:latest'
     container_name: 'postgres_employees'
@@ -15,8 +29,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: tech_inventory_employees_db
-    ports:
-      - '5556:5432'
+    networks:
+      - 'micro-network'
   frontend:
     build: ./inventory-frontend
     container_name: react_app
@@ -25,11 +39,13 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - VITE_HOST=0.0.0.0
+    networks:
+      - 'micro-network'
   backend:
     build: ./inventory-backend
     container_name: nest_app
-    ports:
-      - '3000:3000'
+    expose:
+      - '3000'
     environment:
       ENVIRONMENT: dev
       DB_HOST: postgres
@@ -39,11 +55,13 @@ services:
       DB_NAME: tech_inventory_db
     depends_on:
       - postgres
+    networks:
+      - 'micro-network'
   employees:
     build: ./inventory-people
     container_name: express_app
-    ports:
-      - '5050:5050'
+    expose:
+      - '5050'
     environment:
       DB_HOST: postgres-employees
       DB_PORT: 5432
@@ -54,3 +72,5 @@ services:
       DB_IDLE_TIMEOUT: 3000
     depends_on:
       - postgres-employees
+    networks:
+      - 'micro-network'

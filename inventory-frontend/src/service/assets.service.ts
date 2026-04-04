@@ -2,7 +2,7 @@ import api from "../api/axios.ts";
 import type {AssetData, AssetDto, CreateAssetData} from "../type/assets.type.ts";
 import type {DeepPartial} from "ts-essentials";
 
-const API_URL = '/assets';
+const API_URL = '/nest/assets';
 
 export const AssetsService = {
 

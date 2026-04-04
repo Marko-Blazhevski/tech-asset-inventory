@@ -12,12 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 // --- API routes ---
-app.get('/api', (req, res) => {
-    console.log("Request received at /api!"); // <--- Add this
-    const message = 'hello world';
-    return res.status(200).json(message);
-});
-
 app.get('/api/users', async (req, res) => {
     const result = await db.query('SELECT * FROM users');
     return res.status(200).json({ data: result });
